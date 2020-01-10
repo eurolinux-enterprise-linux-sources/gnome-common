@@ -1,55 +1,51 @@
 Name:           gnome-common
-Version:        3.18.0
-Release:        1%{?dist}
-Summary:        Useful things common to building GNOME packages from scratch
+Version:        3.7.4
+Release:        3%{?dist}
+Summary:        Useful things common to building gnome packages from scratch
+
 Group:          Development/Tools
 BuildArch:      noarch
 License:        GPLv2+
-URL:            https://wiki.gnome.org/Projects/GnomeCommon
-Source0:        https://download.gnome.org/sources/%{name}/3.18/%{name}-%{version}.tar.xz
+URL:            http://developer.gnome.org
+Source0:        http://download.gnome.org/sources/%{name}/3.7/%{name}-%{version}.tar.xz
+
 # This will pull in the latest version; if your package requires something older,
 # well, BuildRequire it in that spec.  At least until such time as we have a
 # build system that is intelligent enough to inspect your source code
 # and auto-inject those requirements.
-Requires:       automake
-Requires:       autoconf
-Requires:       autoconf-archive
-Requires:       gettext
-Requires:       libtool
-Requires:       pkgconfig
-Requires:       yelp-tools
+Requires: automake
+Requires: autoconf
+Requires: libtool
+Requires: gettext
+Requires: pkgconfig
 
 %description
 This package contains sample files that should be used to develop pretty much
 every GNOME application.  The programs included here are not needed for running
-GNOME apps or building ones from distributed tarballs.  They are only useful
-for compiling from git sources or when developing the build infrastructure for
+gnome apps or building ones from distributed tarballs.  They are only useful
+for compiling from CVS sources or when developing the build infrastructure for
 a GNOME application.
 
 %prep
 %setup -q
 
 %build
-%configure --with-autoconf-archive
+%configure
 make %{?_smp_mflags}
+cp doc-build/README doc-README
+# No sense making a doc subdir in the rpm pkg for one file.
+cp doc/usage.txt usage.txt
 
 %install
-make DESTDIR=%{buildroot} INSTALL="install -p" install
+make install DESTDIR=$RPM_BUILD_ROOT
 
 %files
-%doc ChangeLog README
-%license COPYING
-%{_bindir}/gnome-autogen.sh
+%doc doc-README usage.txt ChangeLog
+%{_bindir}/*
 %{_datadir}/aclocal/*
+%{_datadir}/%{name}
 
 %changelog
-* Fri Sep 30 2016 Kalev Lember <klember@redhat.com> - 3.18.0-1
-- Update to 3.18.0
-- Resolves: #1386884
-
-* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 3.7.4-4
-- Mass rebuild 2013-12-27
-
 * Mon Jul  1 2013 Marek Kasik <mkasik@redhat.com> - 3.7.4-3
 - Update license field and link to source archive
 
