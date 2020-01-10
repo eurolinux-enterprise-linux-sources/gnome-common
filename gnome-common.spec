@@ -1,6 +1,6 @@
 Name:           gnome-common
 Version:        3.7.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Useful things common to building gnome packages from scratch
 
 Group:          Development/Tools
@@ -46,6 +46,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_datadir}/%{name}
 
 %changelog
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 3.7.4-4
+- Mass rebuild 2013-12-27
+
 * Mon Jul  1 2013 Marek Kasik <mkasik@redhat.com> - 3.7.4-3
 - Update license field and link to source archive
 
